@@ -1,32 +1,37 @@
-<!DOCTYPE html>
-<html lang="ja">
-    <head>
-        <meta charset="utf-8">
-        <title>Cook list 〜 最近なに食べた？ 〜</title>
-        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css">
-    </head>
-
-    <body>
+@extends('layouts.app')
+@section('content')
     <div class="center mt-5">
         <div class="text-center">
             <h1>Cook li</h1>
             <p>〜 最近なに食べた？ 〜</p>
         </div>
-        <ul class="d-flex justify-content-center">
-            <li class="btn btn-light mr-2">会員登録</li>
-            <li class="btn btn-light">ログイン</li>
-        </ul>
+        @if (Auth::check())
+            <div class="text-center">
+                <div class="mb-3">
+                    <form>
+                        <input type="text" name="query">
+                        <input type="submit" name="btn" value="検索">
+                    </form>
+                </div>
+                <div class="mb-3">
+                    {!! link_to_route('cooks.create', 'メニューや食材を登録する', [], ['class' => 'text-link']) !!}
+                    
+                </div>
+                <div>
+                    {!! link_to_route('cooks.index', '一覧テスト用', [], ['class' => 'btn btn-success']) !!}
+                </div>
+                
+            </div>
+        @else
+            <ul class="d-flex justify-content-center list-unstyled pl-2">
+                <li class="mr-2">{!! link_to_route('signup.get', '会員登録', [], ['class' => 'btn btn-light']) !!}</li>
+                <li>{!! link_to_route('login', 'ログイン', [], ['class' => 'btn btn-light']) !!}</li>
+            </ul>
+        @endif
     </div>
     
     <div class="container">
         {{-- エラーメッセージ --}}
         @include('commons.error_messages')
     </div>
-    
-        <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js"></script>
-        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js"></script>
-        <script defer src="https://use.fontawesome.com/releases/v5.7.2/js/all.js"></script>
-    </body>
-</html>
+@endsection
