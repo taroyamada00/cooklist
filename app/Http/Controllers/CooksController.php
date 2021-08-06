@@ -20,7 +20,7 @@ class CooksController extends Controller
             // 認証済みユーザを取得
             $user = \Auth::user();
             // ユーザの投稿の一覧を作成日時の降順で取得
-            $cooks = $user->cooks()->orderBy('created_at', 'desc')->paginate(10);
+            $cooks = $user->cooks()->orderBy('id', 'desc')->paginate(10);
             
             $data = [
                 'user' => $user,
@@ -156,7 +156,7 @@ class CooksController extends Controller
             $cook->save();
         }
         
-        return redirect('/');
+        return redirect()->route('cooks.show', $id);
     }
 
     /**
@@ -176,8 +176,34 @@ class CooksController extends Controller
         }
 
         // 一覧へリダイレクトさせる
-        return redirect('/cooks');
+        return back();
     }
     
+    public function search(Request $request)
+    {   
+        $request->validate([
+             'search' => 'required'],
+             [
+             'required' => ':attribute は必須項目です'],
+             [
+                'search' => '検索'
+        ]);
+        
+        $search = $request->search;
+        
+        //$cooksに検索結果を集める
+        $cooks = Cook::where('menu', 'like', "%$search%")
+        ->orWhere('ingregient', 'like', "%$search%")
+        ->orderBy('id', 'desc')->paginate(3);
+        // dd($cooks);
+        //件数集め
+        $search_result = $search.'の検索結果'.$cooks->total().'件';
+        
+        return view('cooks.index', [
+            'cooks' => $cooks,
+            'search_result' => $search_result,
+            'search' => $search,
+        ]);
+    }
 
 }

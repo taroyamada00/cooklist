@@ -1,11 +1,11 @@
 <header class="mb-4">
-    <nav class="navbar navbar-expand-sm navbar-dark bg-light">
+    <nav class="navbar navbar-expand-sm navbar-dark">
         {{-- トップページへのリンク --}}
-        <a class="navbar-brand text-dark" href="/">Cook li</a>
+        <a class="navbar-brand text-dark" href="/"><img src="https://www.dfc97.net/cookli/logo_s.svg"></a>
 
-        <button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#nav-bar">
+        {{-- <button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#nav-bar">
             <span class="navbar-toggler-icon"></span>
-        </button>
+        </button> --}}
 
         <div class="collapse navbar-collapse" id="nav-bar">
             <ul class="navbar-nav mr-auto"></ul>

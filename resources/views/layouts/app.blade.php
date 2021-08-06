@@ -4,12 +4,15 @@
         <meta charset="utf-8">
         <title>Cook list 〜 最近なに食べた？ 〜</title>
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <link href="css/style.css" rel="stylesheet" type="text/css">
+        {{-- <link rel="stylesheet" href="https://www.dfc97.net/cookli/style.css"> --}}
+        {{-- <link rel="preconnect" href="https://fonts.googleapis.com"> --}}
+        {{-- <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin> --}}
+        {{-- <link href="https://fonts.googleapis.com/css2?family=Lato:wght@300;700&family=Noto+Sans+JP:wght@300;700&display=swap" rel="stylesheet"> --}}
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css">
     </head>
 
     <body>
-        {{-- ナビゲーションバー --}}
-        @include('commons.navbar')
         
         <div class="container">
             @yield('content')
