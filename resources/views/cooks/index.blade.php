@@ -35,7 +35,7 @@
                         </table>
                         <div class="mb-5 d-flex justify-content-end">
                             {{-- 編集ページへのリンク --}}
-                            <p class="btn btn-warning mr-2">{!! link_to_route('cooks.show', '編集', ['cook' => $cook->id]) !!}</p>
+                            <p class="btn btn-warning mr-2">{!! link_to_route('cooks.show', '詳細', ['cook' => $cook->id]) !!}</p>
                             {{-- 削除ページへのリンク --}}
                             <form method="post" action="{{ route('cooks.destroy', $cook->id) }}">
                                 @csrf

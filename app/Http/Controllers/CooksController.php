@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 
+use Illuminate\Support\Facades\Session;
+
 use App\Cook;
 
 class CooksController extends Controller
@@ -14,7 +16,7 @@ class CooksController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function index()
-    {
+    {   
         $data = [];
         if (\Auth::check()) {// 認証済みの場合
             // 認証済みユーザを取得
@@ -60,7 +62,6 @@ class CooksController extends Controller
      */
     public function store(Request $request)
     {
-        // dd($request->all());
         //バリデーション
         $request->validate([
              'date' => 'required',
@@ -91,14 +92,21 @@ class CooksController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(Request $request, $id)
     {
+       $previousURL = url()->previous(); 
+       $request->session()->put('previousUrl', url()->previous());
+       //dd($previousURL);
+       
         //idを検索して取得
         $cook = Cook::findOrFail($id);
         
         if (\Auth::id() === $cook->user_id) {// 閲覧者===その投稿の所有者
             //詳細ページを表示
-            return view('cooks.show', ['cook' => $cook,]);
+            return view('cooks.show', [
+                'cook' => $cook,
+                'previousURL' => $previousURL
+                ]);
         }
         //認証済みじゃない人がアクセスを試みるとトップにリダイレクト
         return redirect('/');
@@ -111,13 +119,18 @@ class CooksController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function edit($id)
-    {
+    {   
+        $previousURL = url()->previous();
+        
         //idを検索して取得
         $cook = Cook::findOrFail($id);
         
         if (\Auth::id() === $cook->user_id) {// 閲覧者===その投稿の所有者
             //編集ページを表示
-            return view('cooks.edit', ['cook' => $cook,]);
+            return view('cooks.edit', [
+                'cook' => $cook,
+                'previousURL' => $previousURL
+            ]);
         }
         //認証済みじゃない人がアクセスを試みるとトップにリダイレクト
         return redirect('/');
@@ -132,6 +145,7 @@ class CooksController extends Controller
      */
     public function update(Request $request, $id)
     {
+
         //バリデーション
         $request->validate([
              'date' => 'required',
@@ -155,8 +169,10 @@ class CooksController extends Controller
             $cook->url = $request->url;
             $cook->save();
         }
-        
-        return redirect()->route('cooks.show', $id);
+            
+            $previousURL = url()->previous();
+            //dd($previousURL);
+            return redirect($request->session()->get('previousUrl'));
     }
 
     /**
@@ -198,6 +214,10 @@ class CooksController extends Controller
         // dd($cooks);
         //件数集め
         $search_result = $search.'の検索結果'.$cooks->total().'件';
+        
+        //$previousURL = $request->url();
+        //$request->session()->put('previousURL', $previousURL);
+        //dd($previousURL);
         
         return view('cooks.index', [
             'cooks' => $cooks,

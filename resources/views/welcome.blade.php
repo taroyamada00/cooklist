@@ -7,8 +7,6 @@
         @endif
     </ul>
     <div class="content">
-        {{-- エラーメッセージ --}}
-        @include('commons.error_messages')
             <div class="main-img"><img src="https://www.dfc97.net/cookli/mainimg.jpg"></div>
             <div class="d-wrap">
                 <h1><img src="https://www.dfc97.net/cookli/logo.svg"></h1>
@@ -20,6 +18,8 @@
                             <button type="submit" class="btn btn-success">検索</button>
                         </form>
                     </div>
+                    {{-- エラーメッセージ --}}
+                    @include('commons.error_messages')
                     <div>
                         {!! link_to_route('cooks.create', 'メニューや食材を登録する', [], ['class' => 'text-link']) !!}
                     </div>
@@ -29,8 +29,8 @@
                 </div>
                 @else
                 <ul class="d-flex list-unstyled">
-                    <li class="mr-2">{!! link_to_route('signup.get', '会員登録', [], ['class' => 'btn btn-light']) !!}</li>
-                    <li>{!! link_to_route('login', 'ログイン', [], ['class' => 'btn btn-light']) !!}</li>
+                    <li class="mr-2">{!! link_to_route('signup.get', '会員登録', [], ['class' => 'btn btn-dark']) !!}</li>
+                    <li>{!! link_to_route('login', 'ログイン', [], ['class' => 'btn btn-dark']) !!}</li>
                 </ul>
                 @endif
             </div>

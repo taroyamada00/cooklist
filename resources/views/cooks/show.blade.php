@@ -29,7 +29,11 @@
     </table>
     <div class="d-flex">
         {{-- 一覧ページへ戻る --}}
-        <a href="{{ url()->previous() }}" class="btn btn-secondary mr-2">一覧へ戻る</a>
+        @if (Session::has($previousURL))
+            <a href="{{ session('previousURL') }}" class="btn btn-secondary mr-2">一覧へ戻る</a>
+        @else
+            <a href="{{ $previousURL }}" class="btn btn-secondary mr-2">一覧へ戻る</a>
+        @endif
         {{-- 編集ページへのリンク --}}
         <a href="{{ route('cooks.edit', ['cook' => $cook->id]) }}" class="btn btn-warning mr-2">編集</a>
         {{-- <form method="post" action="{{ route('cooks.destroy', $cook->id) }}">
