@@ -6,6 +6,9 @@ use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 
+use App\Cook;
+
+
 class User extends Authenticatable
 {
     use Notifiable;
@@ -41,4 +44,12 @@ class User extends Authenticatable
     {
         return $this->hasMany(Cook::class);
     }
+    
+    //このユーザの投稿に絞り込み
+    //public function user_cooks()
+    //{
+    //    $userId = $this->cooks()->pluck('cooks.user_id')->toArray();
+    //    $userId[] = $this->id;
+    //    return Cook::whereIn('user_id',$userId);
+    //}
 }

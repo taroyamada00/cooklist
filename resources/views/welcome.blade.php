@@ -1,5 +1,6 @@
 @extends('layouts.app')
 @section('content')
+    
     <ul class="logout">
       @if (Auth::check())
             {{-- ログアウトへのリンク --}}
@@ -35,4 +36,7 @@
                 @endif
             </div>
     </div>
+    @if (Auth::check())
+    <p>ようこそ{{ Auth::user()->name }}さん</p>
+    @endif
 @endsection

@@ -8,6 +8,8 @@ use Illuminate\Support\Facades\Session;
 
 use App\Cook;
 
+use App\User;
+
 class CooksController extends Controller
 {
     /**
@@ -96,8 +98,7 @@ class CooksController extends Controller
     {
        $previousURL = url()->previous(); 
        $request->session()->put('previousUrl', url()->previous());
-       //dd($previousURL);
-       
+
         //idを検索して取得
         $cook = Cook::findOrFail($id);
         
@@ -171,7 +172,6 @@ class CooksController extends Controller
         }
             
             $previousURL = url()->previous();
-            //dd($previousURL);
             return redirect($request->session()->get('previousUrl'));
     }
 
@@ -208,22 +208,22 @@ class CooksController extends Controller
         $search = $request->search;
         
         //$cooksに検索結果を集める
-        $cooks = Cook::where('menu', 'like', "%$search%")
+        //$user = \Auth::user();
+        
+        $cooks = User::find(\Auth::id())->cooks()
+        ->where('menu', 'like', "%$search%")
         ->orWhere('ingregient', 'like', "%$search%")
         ->orderBy('id', 'desc')->paginate(3);
-        // dd($cooks);
+        //dd($cooks);
+        
         //件数集め
         $search_result = $search.'の検索結果'.$cooks->total().'件';
         
-        //$previousURL = $request->url();
-        //$request->session()->put('previousURL', $previousURL);
-        //dd($previousURL);
-        
-        return view('cooks.index', [
+            return view('cooks.index', [
             'cooks' => $cooks,
             'search_result' => $search_result,
             'search' => $search,
         ]);
     }
-
+    
 }
