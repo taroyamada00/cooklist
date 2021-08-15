@@ -210,9 +210,9 @@ class CooksController extends Controller
         //$cooksに検索結果を集める
         //$user = \Auth::user();
         
-        $cooks = User::find(\Auth::id())->cooks()
-        ->where('menu', 'like', "%$search%")
-        ->orWhere('ingregient', 'like', "%$search%")
+        $cooks = Cook::where('menu', 'like', "%$search%")
+        ->where('user_id', \Auth::id())
+        ->where('ingregient', 'like', "%$search%")
         ->orderBy('id', 'desc')->paginate(3);
         //dd($cooks);
         
